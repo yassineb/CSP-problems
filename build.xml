@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="csp-problems" default="all">
+  
+  
+  <property file="build.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.bundle/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.tox/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.ear"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.swc"/>
+    <include name="*.ane"/>
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.choco-solver-3.3.1-with-dependencies.classpath">
+    <pathelement location="${basedir}/lib/choco-solver-3.2.0-jar-with-dependencies.jar"/>
+  </path>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module CSP-problems -->
+  
+  <dirname property="module.csp-problems.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.csp-problems" value="-encoding UTF-8 -source 1.7 ${compiler.args}"/>
+  
+  <property name="csp-problems.output.dir" value="${module.csp-problems.basedir}/out/production/CSP-problems"/>
+  <property name="csp-problems.testoutput.dir" value="${module.csp-problems.basedir}/out/test/CSP-problems"/>
+  
+  <path id="csp-problems.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="csp-problems.module.production.classpath">
+    <path refid="library.choco-solver-3.3.1-with-dependencies.classpath"/>
+  </path>
+  
+  <path id="csp-problems.runtime.production.module.classpath">
+    <pathelement location="${csp-problems.output.dir}"/>
+    <path refid="library.choco-solver-3.3.1-with-dependencies.classpath"/>
+  </path>
+  
+  <path id="csp-problems.module.classpath">
+    <pathelement location="${csp-problems.output.dir}"/>
+    <path refid="library.choco-solver-3.3.1-with-dependencies.classpath"/>
+  </path>
+  
+  <path id="csp-problems.runtime.module.classpath">
+    <pathelement location="${csp-problems.testoutput.dir}"/>
+    <pathelement location="${csp-problems.output.dir}"/>
+    <path refid="library.choco-solver-3.3.1-with-dependencies.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.csp-problems">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.csp-problems">
+    <patternset refid="excluded.from.module.csp-problems"/>
+  </patternset>
+  
+  <path id="csp-problems.module.sourcepath">
+    <dirset dir="${module.csp-problems.basedir}">
+      <include name="src"/>
+      <include name="lib"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.csp-problems" depends="compile.module.csp-problems.production,compile.module.csp-problems.tests" description="Compile module CSP-problems"/>
+  
+  <target name="compile.module.csp-problems.production" description="Compile module CSP-problems; production classes">
+    <mkdir dir="${csp-problems.output.dir}"/>
+    <javac destdir="${csp-problems.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.csp-problems}"/>
+      <bootclasspath refid="csp-problems.module.bootclasspath"/>
+      <classpath refid="csp-problems.module.production.classpath"/>
+      <src refid="csp-problems.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.csp-problems"/>
+    </javac>
+    
+    <copy todir="${csp-problems.output.dir}">
+      <fileset dir="${module.csp-problems.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.csp-problems.basedir}/lib">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.csp-problems.tests" depends="compile.module.csp-problems.production" description="compile module CSP-problems; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.csp-problems" description="cleanup module">
+    <delete dir="${csp-problems.output.dir}"/>
+    <delete dir="${csp-problems.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.csp-problems" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.csp-problems" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>
